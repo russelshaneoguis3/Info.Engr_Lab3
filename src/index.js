@@ -1,6 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getFirestore, collection, addDoc } from "firebase/firestore"; 
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -20,3 +22,18 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 console.log(app)
+
+const db = getFirestore(app);
+const saveBtn = document.querySelector(".save")
+saveBtn.addEventListener("click", async () => {
+    const collectionRef = collection(db, "gadgets")
+    const newGadget = await addDoc(collectionRef, {
+        name: "Phone",
+        os: "Android",
+        version: "11"
+    });
+
+    console.log(`Created a new gadget: ${newGadget.id}`)
+})
+
+
